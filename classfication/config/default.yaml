@@ -1,0 +1,85 @@
+# 版权所有 (c) 2024 年由 wenjtop，保留所有权利。
+#
+# 联系方式: wenjtop@gmail.com
+
+# config base
+
+# ['lng_n', 'lng_t', 'lng_s', 'lng_b',
+#  'resnet34', 'resnet_50', 'resnet_101', 'resnext50_32x4d', 'resnext101_32x8d'
+#  'vit_b', 'vit_l', input 224x224 7的倍数
+#  'swin_t', 'swin_s', 'swin_b', input 224x224 7的倍数
+#  'conv_next_t', 'conv_next_s', 'conv_next_b', 'conv_next_l',
+#  'effNet_b1', 'effNet_b2', 'effNet_b3', 'effNet_b4', 'effNet_b5', 'effNet_b6', 'effNet_b7',
+#  'effnet_v2_s', 'effNet_v2_m', 'effnet_v2_l',
+#  'mobilenet_v2', 'mobilenet_v3_s', 'mobilenet_v3_l']
+
+model: resnet34
+# train, eval
+scene: train
+random_seed: 2024
+batch_size: 32
+num_workers: 2
+train_epochs: 20
+resume: ../checkpoint/resnet34-333f7ec4.pth
+start_epoch: 0
+input_size: [224, 224]
+
+# Dataset parameters
+data_path: ../datasets/catdog/
+nb_classes: 2
+output_dir: ../output
+seed: 2024
+
+ # Optimizer parameters
+opt: 'adamw'
+clip_grad: 5.0
+momentum: 0.9
+weight_decay: 0.01
+
+# Learning rate schedule parameters
+sched: cosine
+lr: 1e-4
+lr_noise_pct: 0.67
+lr_noise_std: 1.0
+warmup_lr: 1e-6
+min_lr: 1e-6
+
+# 指定了学习率开始衰减的周期 1/3 的位置
+decay_epochs: 30
+# 学习率会从一个较低值逐渐增加到预定的初始学习率。
+warmup_epochs: 10
+# 冷却周期是指在训练结束时，学习率再次逐渐减小的过程
+cooldown_epochs: 10
+# 指定周期内不再改善时，训练将被提前终止
+patience_epochs: 20
+# mixup 关闭的 epoch
+mixup_close_epochs: 10
+# 数据增强 关闭 epoch
+augmentation_close_epochs: 15
+decay_rate: 0.1
+
+# Augmentation parameters
+color_jitter: 0.4
+aa: rand-m9-mstd0.5-inc1
+smoothing: 0.1
+train_interpolation: bicubic
+
+# Random Erase params
+reprob: 0.25
+remode: pixel
+recount: 1
+resplit: store_true
+
+# Mixup params
+mixup: 0.8
+cutmix: 1.0
+cutmix_minmax:
+mixup_prob: 1.0
+mixup_switch_prob: 0.5
+mixup_mode: batch
+
+dist_eval: False
+pin_mem: True
+no_pin_mem: True
+world_size: 1
+dist_url: env://
