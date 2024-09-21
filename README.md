@@ -4,7 +4,7 @@
 
 邮箱：1007131354@qq.com
 
-### 仓库主要任务是图片分类，对训练策略做了优化，添加了数据增强，基本能还原论文精度，支持以下模型：
+### 仓库主要任务是图片分类，对训练策略做了优化，添加了数据增强，基本能还原论文精度，支持onnx的python、C++、java、javascript和ncnn的C++和java部署。支持以下模型：
 
 ```
 # ['lng_n', 'lng_t', 'lng_s', 'lng_b',
@@ -26,16 +26,25 @@
 catdog数据文件格式：
 
 ```
-├── classname.yaml
-├── train
-│   ├── cat
-│   └── dog
-└── val
-    ├── cat
-    └── dog
+├── catdog
+      ├── classname.yaml
+      ├── v1
+      │   ├── train
+      │   │   ├── cat
+      │   │   └── dog
+      │   └── val
+      │       ├── cat
+      │       └── dog
+      └── v2
+          ├── train
+          │   ├── cat
+          │   └── dog
+          └── val
+              ├── cat
+              └── dog
 ```
 
-classname.yaml 文件内容：
+优先读取存在的classname.yaml 文件，classname.yaml 文件不存在会自动生成，classname.yaml 文件内容：
 
 ```
 cat: 0
